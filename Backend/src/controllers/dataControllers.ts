@@ -10,7 +10,7 @@ export class DataControllers {
         this.dataServices = new DataServices();
     }
 
-    async getAllCarsData(req: Request, res: Response): Promise<void> {
+    async getAllCarsData(res: Response): Promise<void> {
         try {
             const cars = await this.dataServices.getAllCarsData();
             if (cars){
