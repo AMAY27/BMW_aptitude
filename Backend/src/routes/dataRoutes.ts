@@ -6,47 +6,30 @@ const dataControllers = new DataControllers();
 
 router.get(
     '/cars',
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await dataControllers.getAllCarsData(req, res);
-        } catch (error) {
-            next(error);
-        }
+    async (req: Request, res: Response) => {
+        await dataControllers.getAllCarsData(res);
     },
 );
 
 router.delete(
     '/cars/:id',
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await dataControllers.deleteCarById(req, res);
-        } catch (error) {
-            next(error);
-        }
+    async (req: Request, res: Response) => {
+        await dataControllers.deleteCarById(req, res);
     },
 );
 
 router.get(
     '/cars/search',
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await dataControllers.searchCarsByQuery(req, res);
-        } catch (error) {
-            next(error);
-        }
+    async (req: Request, res: Response) => {
+        await dataControllers.searchCarsByQuery(req, res);
     },
 );
 
 router.get(
     '/cars/filter',
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await dataControllers.filterCarsByQuery(req, res);
-        } catch (error) {
-            next(error);
-        }
+    async (req: Request, res: Response) => {
+        await dataControllers.filterCarsByQuery(req, res);
     },
 );
 
 export default router;
-
