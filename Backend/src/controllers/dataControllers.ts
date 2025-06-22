@@ -50,7 +50,6 @@ export class DataControllers {
             } else {
                 res.status(404).json({ message: "No cars found matching the search" });
             }
-            res.status(200).json(cars);
         } catch (error) {
             console.error("Error searching cars:", error);
             res.status(500).json({ error: "Internal server error" });
@@ -58,9 +57,9 @@ export class DataControllers {
     }
 
     async filterCarsByQuery(req: Request, res: Response): Promise<void> {
-        const { column, queryType, value } = req.query;
+        const { column, queryType, value, type } = req.query;
         
-        const validationError = validateFilterInput(column as string, queryType as string, value as string);
+        const validationError = validateFilterInput(column as string, queryType as string, value as string, type as "string" );
         if (validationError) {
             res.status(400).json({ error: validationError.error });
             return;
@@ -69,7 +68,8 @@ export class DataControllers {
             const cars = await this.dataServices.filterCarsByQuery(
                 column as string,
                 queryType as string,
-                value as string | number
+                value as string | number,
+                type as string
             );
             if (cars.length > 0) {
                 res.status(200).json(cars);
