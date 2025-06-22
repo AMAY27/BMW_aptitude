@@ -1,83 +1,84 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface ICar {
-  brand: string;
-  model: string;
-  accelSec: number;
-  topSpeedKmH: number;
-  rangeKm: number;
-  efficiencyWhKm: number;
-  fastChargeKmH: number;
-  rapidCharge: string;
-  powerTrain: string;
-  plugType: string;
-  bodyStyle: string;
-  segment: string;
-  seats: number;
-  priceEuro: number;
-  date: string;
+  _id: any;
+  Brand: string;
+  Model: string;
+  AccelSec: number;
+  TopSpeedKmH: number;
+  RangeKm: number;
+  EfficiencyWhKm: number;
+  FastChargeKmH: number;
+  RapidCharge: string;
+  PowerTrain: string;
+  PlugType: string;
+  BodyStyle: string;
+  Segment: string;
+  Seats: number;
+  PriceEuro: number;
+  Date: string;
 }
 
 const carSchema: Schema<ICar> = new Schema(
   {
-    brand: {
+    Brand: {
       type: String,
       required: true,
     },
-    model: {
+    Model: {
       type: String,
       required: true,
     },
-    accelSec: {
+    AccelSec: {
       type: Number,
       required: true,
     },
-    topSpeedKmH: {
+    TopSpeedKmH: {
       type: Number,
       required: true,
     },
-    rangeKm: {
+    RangeKm: {
       type: Number,
       required: true,
     },
-    efficiencyWhKm: {
+    EfficiencyWhKm: {
       type: Number,
       required: true,
     },
-    fastChargeKmH: {
+    FastChargeKmH: {
       type: Number,
       required: true,
     },
-    rapidCharge: {
+    RapidCharge: {
       type: String,
       enum: ["Yes", "No"],
       required: true,
     },
-    powerTrain: {
+    PowerTrain: {
       type: String,
       required: true,
     },
-    plugType: {
+    PlugType: {
       type: String,
       required: true,
     },
-    bodyStyle: {
+    BodyStyle: {
       type: String,
       required: true,
     },
-    segment: {
+    Segment: {
       type: String,
       required: true,
     },
-    seats: {
+    Seats: {
       type: Number,
       required: true,
     },
-    priceEuro: {
+    PriceEuro: {
       type: Number,
       required: true,
     },
-    date: {
+    Date: {
       type: String,
       required: true,
     },
