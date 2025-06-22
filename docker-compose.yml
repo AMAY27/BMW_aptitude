@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./Backend
+    container_name: bmw_backend
+    env_file:
+      - ./Backend/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - bmw-application-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Frontend
+    container_name: bmw_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - bmw-application-network
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:6.0
+    container_name: bmw_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - bmw-application-network
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+
+networks:
+  bmw-application-network:
+    driver: bridge
