@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BMW Aptitude API",
+    "version": "1.0.0",
+    "description": "API documentation for BMW Aptitude backend"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/cars": {
+      "get": {
+        "summary": "Get all cars",
+        "responses": {
+          "200": {
+            "description": "List of cars"
+          }
+        }
+      }
+    },
+    "/cars/search": {
+      "get": {
+        "summary": "Search cars by term",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Search term"
+          }
+        ],
+        "responses": {
+          "200": { "description": "List of matching cars" }
+        }
+      }
+    },
+    "/cars/filter": {
+      "get": {
+        "summary": "Filter cars by column, queryType, value, and type",
+        "parameters": [
+          { "name": "column", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "queryType", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "value", "in": "query", "required": false },
+          { "name": "type", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "List of filtered cars" }
+        }
+      }
+    },
+    "/cars/{id}": {
+      "delete": {
+        "summary": "Delete a car by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Car ID"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Car deleted successfully" },
+          "404": { "description": "Car not found" }
+        }
+      }
+    }
+  }
+}
