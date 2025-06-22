@@ -1,11 +1,22 @@
 # Docker has specific installation instructions for each operating system.
 # Please refer to the official documentation at https://docker.com/get-started/
 
-# Pull the Node.js Docker image:
-FROM node:22-alpine
+# Use official Node.js image
+FROM node:18-alpine
 
-# Verify the Node.js version:
-RUN node --version
+WORKDIR /app
 
-# Verify npm version:
-RUN npm --version
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy the rest of the code
+COPY . .
+
+# Build TypeScript
+RUN npm run build
+
+EXPOSE 3000
+
+# Start the server
+CMD ["npm", "start"]
