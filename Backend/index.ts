@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import dataRoutes from "./src/routes/dataRoutes"
+import { setupSwagger } from "./src/config/swagger";
 
 dotenv.config();
 import fs from "fs";
@@ -14,6 +15,7 @@ const port = process.env.PORT ?? "9001";
 
 app.use(cors());
 app.use(express.json());
+setupSwagger(app);
 app.use(dataRoutes);
 const mongoUri = process.env.MONGODB_URI;
 if (!mongoUri) {

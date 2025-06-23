@@ -5,14 +5,14 @@ import { ICar } from '../models/Car';
 export function handleCarResponse(cars: ICar[] | ICar): ICarResponse[] {
     const carArray = Array.isArray(cars) ? cars : [cars];
     return carArray.map(car => ({
-        _id: car._id, // Convert ObjectId to string
+        _id: car._id, 
         Brand: car.Brand,
         Model: car.Model,
         AccelSec: car.AccelSec,
-        TopSpeedKmH: car.TopSpeedKmH,
-        RangeKm: car.RangeKm,
-        EfficiencyWhKm: car.EfficiencyWhKm,
-        FastChargeKmH: car.FastChargeKmH,
+        TopSpeed_KmH: car.TopSpeed_KmH,
+        Range_Km: car.Range_Km,
+        Efficiency_WhKm: car.Efficiency_WhKm,
+        FastCharge_KmH: car.FastCharge_KmH,
         RapidCharge: car.RapidCharge,
         PowerTrain: car.PowerTrain,
         PlugType: car.PlugType,

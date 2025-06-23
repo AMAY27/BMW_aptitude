@@ -3,10 +3,10 @@ export interface ICarResponse {
     Brand: string;
     Model: string;
     AccelSec: number;
-    TopSpeedKmH: number;
-    RangeKm: number;
-    EfficiencyWhKm: number;
-    FastChargeKmH: number;
+    TopSpeed_KmH: number;
+    Range_Km: number;
+    Efficiency_WhKm: number;
+    FastCharge_KmH: number;
     RapidCharge: string;
     PowerTrain: string;
     PlugType: string;

@@ -3,30 +3,23 @@ import { deleteCarById } from "../Services/DataService";
 export interface ActionItem {
   label: string;
   value: string;
-  handler: (rowData: any) => void;
+  handler: (rowData: any, navigate?: (path: string) => void, onDeleteSuccess?: () => void) => void;
 }
 
 export const ACTIONS: ActionItem[] = [
   {
-    label: "Edit",
-    value: "edit",
-    handler: (rowData) => {
-      alert(`Edit ${rowData._id}`);
-    }
-  },
-  {
     label: "Delete",
     value: "delete",
-    handler: (rowData) => {
-      if (window.confirm(`Are you sure you want to delete ${rowData._id}?`)) {
+    handler: async (rowData, _navigate, onDeleteSuccess) => {
+      if (window.confirm(`Are you sure you want to delete ${rowData.Brand} ${rowData.Model}?`)) {
         try {
-          deleteCarById(rowData._id);
+          await deleteCarById(rowData._id);
           alert(`Deleted ${rowData._id}`);
+          if (onDeleteSuccess) onDeleteSuccess();
         } catch (error) {
           console.error("Error deleting car:", error);
           alert("Failed to delete the car. Please try again later.");
           return;
-          
         }
       }
     }
@@ -34,8 +27,11 @@ export const ACTIONS: ActionItem[] = [
   {
     label: "View",
     value: "view",
-    handler: (rowData) => {
-      alert(`View ${rowData._id}`);
+    handler: (rowData, navigate) => {
+      localStorage.setItem("carData", JSON.stringify(rowData));
+      if (navigate) {
+        navigate(`/car/${rowData._id}`);
+      }
     }
   },
 ];
