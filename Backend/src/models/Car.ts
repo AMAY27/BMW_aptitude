@@ -5,10 +5,10 @@ export interface ICar {
   Brand: string;
   Model: string;
   AccelSec: number;
-  TopSpeedKmH: number;
-  RangeKm: number;
-  EfficiencyWhKm: number;
-  FastChargeKmH: number;
+  TopSpeed_KmH: number;
+  Range_Km: number;
+  Efficiency_WhKm: number;
+  FastCharge_KmH: number;
   RapidCharge: string;
   PowerTrain: string;
   PlugType: string;
@@ -33,19 +33,19 @@ const carSchema: Schema<ICar> = new Schema(
       type: Number,
       required: true,
     },
-    TopSpeedKmH: {
+    TopSpeed_KmH: {
       type: Number,
       required: true,
     },
-    RangeKm: {
+    Range_Km: {
       type: Number,
       required: true,
     },
-    EfficiencyWhKm: {
+    Efficiency_WhKm: {
       type: Number,
       required: true,
     },
-    FastChargeKmH: {
+    FastCharge_KmH: {
       type: Number,
       required: true,
     },

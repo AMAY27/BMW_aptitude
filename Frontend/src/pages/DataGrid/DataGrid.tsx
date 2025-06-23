@@ -32,6 +32,17 @@ const DataGrid = () => {
     fetchData();
   }, []);
 
+  const reloadCarsData = async () => {
+    try {
+      const data = await fetchAllCarsData();
+      setAllCarsData(data);
+      setDataFromFilter([]);
+      setDataFromSearch([]);
+    } catch (error) {
+      console.error('Error reloading data:', error);
+    }
+  };
+
   useEffect(() => {
     if (allCarsData.length > 0) {
       const keys = Object.keys(allCarsData[0]).filter(key => key !== "_id");
@@ -48,9 +59,10 @@ const DataGrid = () => {
           <ActionCellRenderer
             {...params}
             selectedActions={selectedActions}
+            onDeleteSuccess={reloadCarsData}
           />,
         pinned: 'left',
-        width: 150,
+        width: 250,
         sortable: false,
         filter: false,
       });
@@ -66,15 +78,9 @@ const DataGrid = () => {
   const handleSearch = async () => {
     try {
       const resp = await fetchCarsBySearchTerm(searchTerm);
-      if (resp.status !== 200) {
-        alert("No data found for the given search term.");
-        setDataFromSearch([]);
-        return;
-      }
-      const data = resp.data;
-      setDataFromSearch(data);
+      setDataFromSearch(resp.data);
     } catch (error) {
-      alert("No data found for the given search term.");
+      alert( "No data found for the given search term.");
       setDataFromSearch([]);
     }
   }

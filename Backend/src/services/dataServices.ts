@@ -27,6 +27,9 @@ export class DataServices {
 
         let query: any = {};
 
+        // Helper to escape regex special characters
+        const escapeRegex = (val: string) => val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
         if (type === "number") {
             switch (queryType) {
                 case "isEqual":
@@ -51,18 +54,24 @@ export class DataServices {
                     throw new Error("Invalid queryType for number column");
         }
         } else if (type === "string") {
+            const val = typeof value === 'string' ? value.trim() : value;
+            let regex;
             switch (queryType) {
                 case "isEqual":
-                    query[column] = value;
+                    regex = `^${escapeRegex(val as string)}$`;
+                    query[column] = { $regex: regex, $options: "i" };
                     break;
                 case "startsWith":
-                    query[column] = { $regex: `^${value}`, $options: "i" };
+                    regex = `^${escapeRegex(val as string)}`;
+                    query[column] = { $regex: regex, $options: "i" };
                     break;
                 case "endsWith":
-                    query[column] = { $regex: `${value}$`, $options: "i" };
+                    regex = `${escapeRegex(val as string)}$`;
+                    query[column] = { $regex: regex, $options: "i" };
                     break;
                 case "contains":
-                    query[column] = { $regex: value, $options: "i" };
+                    regex = escapeRegex(val as string);
+                    query[column] = { $regex: regex, $options: "i" };
                     break;
                 case "isEmpty":
                     query[column] = { $in: [null, ""] };
@@ -70,6 +79,8 @@ export class DataServices {
                 default:
                     throw new Error("Invalid queryType");
             }
+            // Debug log
+            console.log('Filter Query:', JSON.stringify(query));
         }
 
         const cars: ICar[] = await Car.find(query);
