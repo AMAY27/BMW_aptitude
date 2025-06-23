@@ -6,7 +6,6 @@
 
 ## Prerequisites
 - [Docker](https://www.docker.com/products/docker-desktop) installed
-- [Docker Compose](https://docs.docker.com/compose/install/) (comes with Docker Desktop)
 
 ## Project Structure
 ```
@@ -44,21 +43,9 @@ BMW_aptitude/
    - Frontend: [http://localhost:5173](http://localhost:5173)
    - Backend API: [http://localhost:3000](http://localhost:3000)
 
-## Useful Commands
-- Stop all services:
-  ```sh
-  docker-compose down
-  ```
-- Remove all data (reset DB):
-  ```sh
-  docker-compose down -v
-  ```
 
 ## Notes
 - The backend connects to MongoDB using the service name `mongo` as the hostname.
 - The MongoDB seed script only runs if the database is empty (first run).
-- For production, you may want to adjust the frontend Dockerfile to serve static files with nginx.
 
 ---
-
-Feel free to open issues or PRs for improvements!
