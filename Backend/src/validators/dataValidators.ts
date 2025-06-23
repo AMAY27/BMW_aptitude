@@ -15,7 +15,6 @@ export const validateFilterInput = (
     "isEqual", "isEmpty", "isGreaterThan", "isLessThan", "isGreaterThanOrEqual", "isLessThanOrEqual"
   ];
 
-  // Check allowed query types for the given type
   if (type === "string" && !allowedQueryTypesString.includes(queryType)) {
     return { error: `Invalid queryType "${queryType}" for string column` };
   }
@@ -23,7 +22,7 @@ export const validateFilterInput = (
     return { error: `Invalid queryType "${queryType}" for number column` };
   }
 
-  // Value validation
+
   if (queryType !== "isEmpty" && (value === undefined || value === null || value === "")) {
     return { error: `"value" is required for queryType: ${queryType}` };
   }
