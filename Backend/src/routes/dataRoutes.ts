@@ -11,6 +11,20 @@ router.get(
     },
 );
 
+router.get(
+    '/cars/paginated',
+    async(req: Request,res: Response) => {
+        await dataControllers.getAllCarDataWithPagination(req,res);
+    },
+)
+
+router.put(
+    '/cars/update/:id',
+    async(req: Request, res:Response) => {
+        await dataControllers.updateCar(req,res);
+    }
+)
+
 router.delete(
     '/cars/:id',
     async (req: Request, res: Response) => {

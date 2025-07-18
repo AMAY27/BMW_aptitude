@@ -26,6 +26,22 @@ export class DataControllers {
         }
     }
 
+    async getAllCarDataWithPagination(req: Request, res: Response): Promise<void> {
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        try {
+            const cars = await this.dataServices.getAllCarsDataWithPagination(page, limit);
+            if (cars.data && cars.data.length > 0) {
+                res.status(200).json(cars);
+            } else {
+                res.status(404).json({ message: "No cars found" });
+            }
+        } catch (error) {
+            console.error("Error fetching all cars data:", error);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    }
+
     async deleteCarById(req: Request, res:Response): Promise<void> {
         const carId = req.params.id;
         try {
@@ -33,6 +49,21 @@ export class DataControllers {
             res.status(200).json({ message: "Car deleted successfully" });
         } catch (error) {
             console.error("Error deleting car by ID:", error);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    }
+
+    async updateCar(req: Request, res: Response): Promise<void> {
+        const carId = req.params.id;
+        try {
+            const updatedCar = await this.dataServices.updateCar(carId, req.body);
+            if (updatedCar) {
+                res.status(200).json(updatedCar);
+            } else {
+                res.status(404).json({ message: "Car not found" });
+            }
+        } catch (error) {
+            console.error("Error updating car:", error);
             res.status(500).json({ error: "Internal server error" });
         }
     }

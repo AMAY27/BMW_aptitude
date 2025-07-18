@@ -24,8 +24,15 @@ const DataGrid = () => {
     const fetchData = async () => {
       try {
         const data = await fetchAllCarsData();
-        setAllCarsData(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setAllCarsData(data);
+        } else {
+          setAllCarsData([]);
+          // Optionally, show a message to the user
+          console.warn('No car data found.');
+        }
       } catch (error) {
+        setAllCarsData([]);
         console.error('Error fetching data:', error);
       }
     };
@@ -43,10 +50,20 @@ const DataGrid = () => {
     }
   };
 
+  const formatColTitle = (key: string) =>
+    key
+      .replace(/_/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .replace(/\b\w/g, c => c.toUpperCase());
+
   useEffect(() => {
     if (allCarsData.length > 0) {
       const keys = Object.keys(allCarsData[0]).filter(key => key !== "_id");
-      const cols: ColDef[] = keys.map(key => ({ field: key, type: typeof allCarsData[0][key] }));
+      const cols: ColDef[] = keys.map(key => ({ 
+        field: key, 
+        type: typeof allCarsData[0][key],
+        headerName: formatColTitle(key) 
+      }));
       cols.push({
         headerName: "Actions",
         headerComponent: () =>
@@ -75,7 +92,8 @@ const DataGrid = () => {
     console.log("Column Definitions Updated: ", columnDefs);
   }, [columnDefs])
 
-  const handleSearch = async () => {
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const resp = await fetchCarsBySearchTerm(searchTerm);
       setDataFromSearch(resp.data);
@@ -94,6 +112,11 @@ const DataGrid = () => {
 
   return (
     <>
+      {allCarsData.length === 0 && dataFromSearch.length === 0 && dataFromFilter.length === 0 && (
+        <Box sx={{ mt: 2, textAlign: 'center', fontSize:'20px', color:"red", margin:'2rem'}}>
+          Something went wrong while fetching the cars data. Please try again later
+        </Box>
+      )}
       <Navbar />
       <Box sx={{ width: "90%", height: "80%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
         <Box
@@ -105,18 +128,19 @@ const DataGrid = () => {
             mb: 2,
             position: 'relative',
           }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', width: "40%" }}>
+          <Box component="form" onSubmit={handleSearch} sx={{ display: 'flex', alignItems: 'center', width: "40%" }}>
             <TextField
               label="Search"
               variant="outlined"
               value={searchTerm}
+              required={true}
               onChange={handleSearchInputChange}
               fullWidth
             />
             <Button
               variant="contained"
               sx={{ ml: 2 }}
-              onClick={handleSearch}
+              type='submit'
               disabled={!searchTerm.trim()}
             >
               Submit

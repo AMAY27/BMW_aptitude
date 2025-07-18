@@ -26,7 +26,7 @@ export const FilterComponent: React.FC<FilterComponentProps> = ({ columns, isFil
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (column && value !== "") {
+        if (column) {
             try {
                 const data = await fetchCarsByFilter(column.field as string, queryType, value, column.type as string);
                 setDataFromSearch([]);
@@ -88,7 +88,7 @@ export const FilterComponent: React.FC<FilterComponentProps> = ({ columns, isFil
                     size="small"
                 >
                     {columns.map((col, index) => (
-                        <MenuItem key={index} value={col.field}>{col.field}</MenuItem>
+                        <MenuItem key={index} value={col.field}>{col.headerName}</MenuItem>
                     ))}
                 </Select>
                 {column && column.type === "number" ? (
@@ -116,7 +116,7 @@ export const FilterComponent: React.FC<FilterComponentProps> = ({ columns, isFil
                         ))}
                     </Select>
                 ) : null}
-                {column && column.type === "number" ? (
+                {column && column.type === "number" && queryType !== "isEmpty" ? (
                     <TextField
                         type="number"
                         placeholder="Enter value"
@@ -124,7 +124,7 @@ export const FilterComponent: React.FC<FilterComponentProps> = ({ columns, isFil
                         onChange={e => setValue(e.target.value)}
                         size="small"
                     />
-                ) : column && column.type === "string" ? (
+                ) : column && column.type === "string" && queryType !== "isEmpty" ? (
                     <TextField
                         type="text"
                         placeholder="Enter value"
