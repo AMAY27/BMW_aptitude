@@ -25,6 +25,13 @@ export const ACTIONS: ActionItem[] = [
     }
   },
   {
+    label: "Edit",
+    value: "edit",
+    handler: () => {
+      window.alert("Edit clicked");
+    }
+  },
+  {
     label: "View",
     value: "view",
     handler: (rowData, navigate) => {
