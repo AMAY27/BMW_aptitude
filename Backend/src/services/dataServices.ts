@@ -9,9 +9,20 @@ export class DataServices {
         return handleCarResponse(cars);
     }
 
+    async getAllCarsDataWithPagination(page: number, limit: number): Promise<{ data: ICarResponse[], total: number }> {
+        const skip = (page - 1) * limit;
+        const cars = await Car.find().skip(skip).limit(limit).lean();
+        const total = await Car.countDocuments();
+        return { data: handleCarResponse(cars), total };
+    }
+
     async deleteCarById(carId: string): Promise<ICar | null> {
         const deletedCar = await Car.findByIdAndDelete(carId);
         return deletedCar;
+    }
+
+    async updateCar(carId: string, carData: any): Promise<ICar | null> {
+        return await Car.findByIdAndUpdate(carId, carData, { new: true });
     }
 
     async searchCarsByQuery(searchTerm: string): Promise<ICarResponse[]> {

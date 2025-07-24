@@ -22,6 +22,20 @@
         }
       }
     },
+    "/cars/paginated" : {
+      "get" : {
+        "summary" : "Get all cars with pagination",
+        "parameters": [
+          { "name": "page", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "limit", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses" : {
+          "200": {
+            "description" : "List of cars"
+          }
+        }
+      }
+    },
     "/cars/search": {
       "get": {
         "summary": "Search cars by term",
@@ -67,6 +81,32 @@
         ],
         "responses": {
           "200": { "description": "Car deleted successfully" },
+          "404": { "description": "Car not found" }
+        }
+      },
+      "put": {
+        "summary": "Update a car by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Car ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Car updated successfully" },
           "404": { "description": "Car not found" }
         }
       }
